@@ -5,17 +5,17 @@ A production-grade Single Page Application (SPA) built to power a real-world cos
 
 ## ⚙️ System Architecture & Features
 Based on the repository structure, this application implements advanced frontend patterns:
-* **Secure Admin Panel:** Dedicated, route-guarded administration modules for managing products, categories, and viewing detailed order histories (`auth-guard`, `admin` components)[cite: 2].
-* **Complete Checkout Flow:** Integrated cart management, dynamic product filtering, and a streamlined checkout process (`cart`, `checkout`, `product-shop` components)[cite: 2].
-* **Production-Ready Integrations:** Native implementation of SEO optimization, Google Analytics, and Google Ads tracking services to drive marketing decisions (`seo.ts`, `googleAnalyticsService.ts`)[cite: 2].
-* **API Security:** Custom HTTP Interceptors for seamless authentication token attachment on every backend request (`auth-interceptor.ts`)[cite: 2].
-* **Customer Engagement:** Built-in WhatsApp integration for direct customer support and product reviews system (`whatsapp-button`, `reviews`)[cite: 2].
+* **Secure Admin Panel:** Dedicated, route-guarded administration modules for managing products, categories, and viewing detailed order histories (`auth-guard`, `admin` components).
+* **Complete Checkout Flow:** Integrated cart management, dynamic product filtering, and a streamlined checkout process (`cart`, `checkout`, `product-shop` components).
+* **Production-Ready Integrations:** Native implementation of SEO optimization, Google Analytics, and Google Ads tracking services to drive marketing decisions (`seo.ts`, `googleAnalyticsService.ts`).
+* **API Security:** Custom HTTP Interceptors for seamless authentication token attachment on every backend request (`auth-interceptor.ts`).
+* **Customer Engagement:** Built-in WhatsApp integration for direct customer support and product reviews system (`whatsapp-button`, `reviews`).
 
 ## 🛠️ Tech Stack
-* **Framework:** Angular[cite: 2]
-* **Language:** TypeScript[cite: 2]
-* **Styling:** SCSS (Modular architecture with shared variables)[cite: 2]
-* **Deployment:** Pre-configured for Vercel deployment (`vercel.json`)[cite: 2]
+* **Framework:** Angular
+* **Language:** TypeScript
+* **Styling:** SCSS (Modular architecture with shared variables)
+* **Deployment:** Pre-configured for Vercel deployment (`vercel.json`)
 
 ## 🚀 How to Run Locally
 
@@ -25,6 +25,6 @@ Based on the repository structure, this application implements advanced frontend
 
 ### Setup
 1. Clone the repository.
-2. Install dependencies by running `npm install`[cite: 2].
+2. Install dependencies by running `npm install`.
 3. Run the development server with `ng serve`.
 4. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
