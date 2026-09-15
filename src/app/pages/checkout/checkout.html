@@ -105,7 +105,7 @@
   <div class="form-group input-with-spinner">
     <label for="cep">CEP</label>
     <!-- inputmode="numeric" é o segredo para abrir o teclado numérico no celular -->
-    <input #cepInput id="cep" formControlName="cep" type="text" inputmode="numeric" maxlength="9" placeholder="Ex: 20541-170">
+    <input #cepInput id="cep" formControlName="cep" type="text" inputmode="numeric" maxlength="9" placeholder="Ex: 20000-100">
     
     <div *ngIf="isCepLoading" class="spinner" role="status"></div>
     <!-- Link discreto para não perder a venda de quem esqueceu o CEP -->
