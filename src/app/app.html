@@ -1,12 +1,12 @@
 <div class="app-container">
 
-  <app-header *ngIf="!isAdminRoute"></app-header>
+  <app-header *ngIf="!isAdminRoute && !router.url.includes('/carrinho')"></app-header>
 
   <main [class.admin-main]="isAdminRoute">
     <router-outlet></router-outlet>
   </main>
 
-  <app-footer *ngIf="!isAdminRoute"></app-footer>
+  <app-footer *ngIf="!isAdminRoute && !router.url.includes('/carrinho')"></app-footer>
 </div>
 
-<app-whatsapp-button *ngIf="!isAdminRoute"></app-whatsapp-button>
+<app-whatsapp-button *ngIf="!isAdminRoute && !router.url.includes('/carrinho')"></app-whatsapp-button>

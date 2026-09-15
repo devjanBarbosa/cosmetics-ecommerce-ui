@@ -33,6 +33,23 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   isSubmitting = false;
   private destroy$ = new Subject<void>();
 
+  /** Fluxo em etapas (mobile-first): 1 = dados, 2 = entrega, 3 = pagamento */
+  currentStep: 1 | 2 | 3 = 1;
+  resumoAberto = false;
+  cupomAberto = false;
+
+  get primeiroItemNome(): string { return this.cartItems[0]?.produto.nome ?? ''; }
+  get itensRestantes(): number { return Math.max(this.cartItems.length - 1, 0); }
+
+  get tituloEtapa(): string {
+    switch (this.currentStep) {
+      case 1: return 'Seus dados';
+      case 2: return 'Entrega';
+      case 3: return 'Pagamento';
+      default: return '';
+    }
+  }
+
   constructor(
     private fb: FormBuilder,
     private cartService: CartService,
@@ -134,6 +151,39 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     if (codigo.toUpperCase() === 'LEDA10') { this.desconto = this.subtotal * 0.10; this.toastr.success('Cupom aplicado!', 'Sucesso'); }
     else { this.desconto = 0; this.toastr.error('Cupom inválido.', 'Ops!'); }
     this.calcularTotal();
+  }
+
+  avancarEtapa(): void {
+    if (this.currentStep === 1) {
+      if (!this.validarControles(['nomeCliente', 'whatsappCliente'])) return;
+      this.currentStep = 2;
+    } else if (this.currentStep === 2) {
+      const controles = this.metodoEntrega?.value === 'Delivery'
+        ? ['metodoEntrega', 'cep', 'numero']
+        : ['metodoEntrega'];
+      if (!this.validarControles(controles)) return;
+      this.currentStep = 3;
+    }
+    this.resumoAberto = false;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  voltarEtapa(): void {
+    if (this.currentStep > 1) {
+      this.currentStep = (this.currentStep - 1) as 1 | 2 | 3;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  private validarControles(nomes: string[]): boolean {
+    let valido = true;
+    for (const nome of nomes) {
+      const controle = this.checkoutForm.get(nome);
+      controle?.markAsTouched();
+      if (controle?.invalid) valido = false;
+    }
+    if (!valido) this.toastr.warning('Confira os campos destacados.', 'Falta pouco');
+    return valido;
   }
 
   incrementarQuantidade(item: CartItem): void { this.cartService.adicionarAoCarrinho(item.produto); }
