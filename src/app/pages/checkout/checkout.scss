@@ -590,8 +590,11 @@ textarea {
   flex: 0 0 35%;
 }
 
-.fraction-complement {
-  flex: 0 0 calc(65% - var(--space-md));
+.fraction-complement label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between; /* Joga o "(Opcional)" para o canto direito da linha do label */
+  width: 100%;
 }
 
 .text-muted {
