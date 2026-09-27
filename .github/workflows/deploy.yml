@@ -1,0 +1,55 @@
+name: Deploy Frontend to S3 & CloudFront
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Angular app
+        run: npm run build -- --configuration production
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Sync artifacts to S3
+        run: |
+          # Detecta a pasta de saída do build dentro de dist/
+          BUILD_DIR=$(find dist -type d -name "browser" 2>/dev/null || echo "dist")
+          aws s3 sync "$BUILD_DIR" s3://${{ vars.S3_BUCKET_NAME }} --delete
+
+      - name: Invalidate CloudFront Cache (Dynamic Lookup)
+        run: |
+          echo "Buscando ID da distribuição associada ao bucket ${{ vars.S3_BUCKET_NAME }}..."
+          
+          DISTRIBUTION_ID=$(aws cloudfront list-distributions \
+            --query "DistributionList.Items[?contains(Origins.Items[].DomainName, '${{ vars.S3_BUCKET_NAME }}')].Id" \
+            --output text)
+
+          if [ -z "$DISTRIBUTION_ID" ] || [ "$DISTRIBUTION_ID" == "None" ]; then
+            echo "Nenhuma distribuição ativa encontrada para o bucket. Pulando invalidação (ambiente novo ou destruído)."
+          else
+            echo "Distribuição encontrada: $DISTRIBUTION_ID"
+            aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths "/*"
+          fi
