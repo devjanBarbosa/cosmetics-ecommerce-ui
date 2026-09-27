@@ -1,97 +1,24 @@
-<section class="hero-banner">
-  <div class="hero-content">
-    <h1>Sua Beleza, Nosso Cuidado</h1>
-    <p>Os melhores produtos, selecionados a dedo e entregues rapidamente no seu bairro.</p>
-    <a routerLink="/produtos" class="btn-primary">Ver todos os produtos</a>
+<div class="local-delivery-badge">
+  <i class="bi bi-geo-alt-fill"></i>
+  <span>Entrega expressa em <strong>Bangu e região</strong></span>
+</div>
+
+<section class="brand-pills-container">
+  <div class="brand-pills-scroll">
+    <button class="brand-pill">Natura</button>
+    <button class="brand-pill">O Boticário</button>
+    <button class="brand-pill">Avon</button>
+    <button class="brand-pill">Eudora</button>
   </div>
 </section>
 
-<section class="diferenciais-section">
-  <div class="diferencial-item">
-    <i class="bi bi-truck"></i>
-    <h3>Entrega Rápida</h3>
-    <p>Receba os seus produtos no mesmo dia no nosso bairro.</p>
-  </div>
-  <div class="diferencial-item">
-    <i class="bi bi-whatsapp"></i>
-    <h3>Atendimento Pessoal</h3>
-    <p>Fale diretamente com a Leda para tirar dúvidas e receber dicas.</p>
-  </div>
-  <div class="diferencial-item">
-    <i class="bi bi-gem"></i>
-    <h3>Curadoria Especial</h3>
-    <p>Apenas produtos testados e aprovados por quem entende.</p>
-  </div>
-</section>
+<app-product-list [produtos]="produtosEmDestaque" titulo="Destaques da Semana"></app-product-list>
 
 <app-welcome></app-welcome>
 
-<section class="brand-banner">
-  <div class="container">
-    <h3>Trabalhamos com as melhores marcas para você</h3>
-    <div class="brand-list">
-      <span class="brand-item">Natura</span>
-      <span class="brand-item">Avon</span>
-      <span class="brand-item">O Boticário</span>
-      <span class="brand-item">Eudora</span>
-    </div>
-    <p class="availability-check">
-      Não encontrou o que procurava?
-      <a href="https://wa.me/5521997883761?text=Olá! Gostaria de saber se vocês têm um produto que não encontrei no site." target="_blank" rel="noopener">
-        Verifique a disponibilidade via WhatsApp!
-      </a>
-    </p>
-  </div>
-</section>
-
-<section class="gift-section">
-  <div class="container">
-    <h2>Presentes Especiais</h2>
-    <p>Encontre a cesta perfeita para surpreender quem você ama.</p>
-    
-    <swiper-container
-      [slidesPerView]="'auto'"
-      [spaceBetween]="20"
-      navigation="true"
-      [pagination]="{ clickable: true }"
-      [breakpoints]="{
-        '320': { 'slidesPerView': 1, 'spaceBetween': 15 },
-        '576': { 'slidesPerView': 2, 'spaceBetween': 20 },
-        '992': { 'slidesPerView': 3, 'spaceBetween': 20 }
-      }">
-      
-      <swiper-slide *ngFor="let categoria of categoriasDePresente">
-        <a [routerLink]="['/presentes']" 
-           [queryParams]="{ categoria: categoria.id }"
-           class="category-card">
-          
-          <div class="category-image-wrapper">
-            <!-- ============================================= -->
-            <!--             CORREÇÃO PRINCIPAL AQUI             -->
-            <!-- ============================================= -->
-            <img *ngIf="categoria.urlImagem" [src]="categoria.urlImagem" [alt]="categoria.nome">
-            
-            <!-- Fallback: Mostra um ícone se a categoria não tiver imagem -->
-            <div *ngIf="!categoria.urlImagem" class="category-image-placeholder">
-                <i class="bi bi-gift-fill"></i>
-            </div>
-          </div>
-          
-          <div class="category-name">
-            <h3>{{ categoria.nome }}</h3>
-          </div>
-
-        </a>
-      </swiper-slide>
-      
-    </swiper-container>
-  </div>
-</section>
-
 <section class="category-section">
   <div class="container">
-    <h2>Nossas Categorias</h2>
-    <p>Navegue pelas nossas seleções e encontre o que você precisa.</p>
+    <h2 class="section-title">Categorias</h2>
     
     <div class="category-grid">
       
