@@ -7,10 +7,7 @@
     <a routerLink="/produtos">Produtos</a>
     <ng-container *ngIf="produto.categoria?.nome">
       <i class="bi bi-chevron-right" aria-hidden="true"></i>
-
-      <a [routerLink]="['/produtos']" [queryParams]="{ categoria: produto.categoria.id }">
-        {{ produto.categoria.nome }}
-      </a>
+      <a href="/produtos" [attr.href]="'/produtos?categoria=' + produto.categoria.id">{{ produto.categoria.nome }}</a>
     </ng-container>
   </nav>
 
