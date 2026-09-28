@@ -1,298 +1,317 @@
-/* Arquivo: product-detail.scss (Versão Melhorada)
-  Descrição: Estilos para a página de detalhes do produto, alinhados com
-  as melhores práticas de UI/UX e a estrutura HTML aprimorada.
-*/
+$marsala: #78283a;
+$marsala-hover: #5e1c2b;
+$ink: #1f2937;
+$muted: #6b7280;
+$body: #4b5563;
+$line: #eee9e9;
+$soft: #faf8f8;
+$green-dark: #0f7a3f;
+$warn: #b45309;
 
-// --- 1. Design System (Variáveis) ---
-:host {
-  --primary-color: #A15A70;
-  --primary-color-dark: #7A3B4A;
-  --success-color: #28a745;
-  --text-color-dark: #2c3e50;
-  --text-color-light: #8492a6;
-  --surface-color: #ffffff;
-  --background-color: #f7f9fc;
-  --border-color: #e9ecef;
-  --star-color: #ffc107;
-  --border-radius: 12px;
-  --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-}
+:host { display: block; }
 
-// --- 2. Layout Principal ---
 .product-detail-container {
-  display: grid;
-  grid-template-columns: 1fr; // Coluna única em mobile
-  gap: 2rem;
   max-width: 1200px;
-  margin: 2rem auto;
-  padding: 1rem;
-}
+  margin: 0 auto;
+  padding: 16px 16px 110px;          /* espaço para a barra fixa no celular */
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  color: $ink;
 
-@media (min-width: 768px) {
-  .product-detail-container {
-    grid-template-columns: 1fr 1fr; // Duas colunas em desktop
-    gap: 3rem;
+  @media (min-width: 992px) {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 24px 56px;
+    padding: 24px 24px 64px;
   }
 }
 
-// --- 3. Galeria de Imagens ---
-.product-gallery {
+/* ---------- Trilha ---------- */
+.breadcrumb {
+  grid-column: 1 / -1;
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: $muted;
+
+  a { color: $muted; text-decoration: none; &:hover { color: $marsala; text-decoration: underline; } }
+  i { font-size: 0.7rem; }
 }
 
+/* ---------- Foto ---------- */
 .main-image-wrapper {
-  width: 100%;
+  position: relative;
   aspect-ratio: 1 / 1;
-  border-radius: var(--border-radius);
+  border-radius: 20px;
+  border: 1px solid $line;
+  background: $soft;
   overflow: hidden;
-  border: 1px solid var(--border-color);
-  background-color: white;
 
   img {
     width: 100%;
     height: 100%;
-    object-fit: contain; // Mostra a imagem inteira sem cortar
-  }
-}
-
-.thumbnail-gallery {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.75rem;
-
-  .thumbnail {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    border-radius: 8px;
-    border: 2px solid var(--border-color);
-    cursor: pointer;
-    transition: border-color 0.2s ease;
     object-fit: cover;
+    display: block;
 
-    &.active, &:hover {
-      border-color: var(--primary-color);
-    }
+    &.img-error { opacity: 0; }
   }
 }
 
-// --- 4. Informações do Produto ---
-.product-info {
-  display: flex;
-  flex-direction: column;
+.badge-low {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: #fff;
+  color: $marsala;
+  font-size: 0.75rem;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ---------- Informações ---------- */
+.product-info { display: flex; flex-direction: column; min-width: 0; }
+
+.category-tag {
+  align-self: flex-start;
+  margin-bottom: 8px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba($marsala, 0.08);
+  color: $marsala;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .product-title {
-  font-size: 2.2rem;
-  font-weight: 700;
-  margin: 0 0 0.5rem 0;
-  color: var(--text-color-dark);
+  margin: 0 0 16px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: $ink;
+
+  @media (min-width: 992px) { font-size: 1.9rem; }
 }
 
-// --- 5. Avaliações (Prova Social) ---
-.reviews-summary {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-
-  .star-rating {
-    color: var(--star-color);
-    font-size: 1.1rem;
-  }
-
-  .reviews-count {
-    color: var(--text-color-light);
-    text-decoration: none;
-    font-weight: 500;
-    &:hover { text-decoration: underline; }
-  }
-}
-
-// --- 6. Preço e Parcelamento ---
 .price-section {
-  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 16px;
 
   .product-price {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--primary-color);
-    display: block;
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: $marsala;
   }
 
-  .installment-option {
-    font-size: 1rem;
-    color: var(--text-color-light);
-    font-weight: 500;
+  .installment-option { font-size: 0.9rem; color: $body; }
+}
+
+.shipping-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: $soft;
+  border: 1px solid $line;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: $body;
+
+  i { flex-shrink: 0; margin-top: 1px; font-size: 1.1rem; color: $marsala; }
+  strong { color: $ink; }
+
+  &.is-free {
+    background: rgba($green-dark, 0.07);
+    border-color: rgba($green-dark, 0.25);
+
+    i { color: $green-dark; }
   }
 }
 
-// --- 7. Vantagens Locais ---
-.local-perks {
-  margin: 1rem 0;
-  padding: 1.25rem;
-  background-color: #f8f9fa;
-  border-radius: var(--border-radius);
-  border: 1px solid var(--border-color);
-
-  .perk-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    color: var(--text-color-dark);
-    font-weight: 500;
-    &:not(:last-child) { margin-bottom: 0.75rem; }
-    i { color: var(--success-color); font-size: 1.3rem; }
-  }
-}
-
-// --- 8. Estoque ---
 .stock-info {
-  margin-bottom: 1.5rem;
-  font-weight: 500;
-  font-size: 1rem;
-  &.in-stock { color: var(--success-color); }
-  &.out-of-stock { color: #dc3545; }
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 20px;
+  font-size: 0.88rem;
+  font-weight: 600;
+
+  &.in-stock { color: $green-dark; }
+  &.low { color: $warn; }
+  &.out-of-stock { color: #b91c1c; }
 }
 
-// --- 9. Botões de Ação (CTAs) ---
+/* ---------- Ações ---------- */
 .actions {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.75rem;
-  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
 
-  button, a {
-    padding: 1rem;
-    border-radius: 8px;
-    border: 2px solid transparent;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    transition: all 0.2s ease;
+.buy-now-button,
+.add-to-cart-button,
+.notify-button,
+.whatsapp-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 0 24px;
+  border-radius: 999px;
+  font-size: 0.98rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+
+  &:active { transform: scale(0.98); }
+  &:focus-visible { outline: 3px solid rgba($marsala, 0.4); outline-offset: 2px; }
+}
+
+.buy-now-button {
+  border: 1px solid $marsala;
+  background: $marsala;
+  color: #fff;
+
+  &:hover { background: $marsala-hover; border-color: $marsala-hover; }
+
+  @media (max-width: 991px) { display: none; }   /* no celular vale o botão da barra fixa */
+}
+
+.add-to-cart-button,
+.notify-button {
+  border: 1px solid $marsala;
+  background: #fff;
+  color: $marsala;
+
+  &:hover { background: rgba($marsala, 0.06); }
+}
+
+.whatsapp-button {
+  min-height: 46px;
+  border: 1px solid $line;
+  background: #fff;
+  color: $green-dark;
+  font-size: 0.9rem;
+
+  &:hover { border-color: $green-dark; background: rgba($green-dark, 0.05); }
+}
+
+/* ---------- Garantias ---------- */
+.local-perks {
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 16px 0;
+  border-top: 1px solid $line;
+  border-bottom: 1px solid $line;
+  display: grid;
+  gap: 14px;
+}
+
+.perk-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  i { flex-shrink: 0; font-size: 1.4rem; color: $marsala; }
+
+  div { display: flex; flex-direction: column; }
+  strong { font-size: 0.88rem; font-weight: 600; color: $ink; }
+  span { font-size: 0.8rem; color: $muted; }
+}
+
+/* ---------- Descrição ---------- */
+.description-section {
+  h2 { margin: 0 0 8px; font-size: 1.1rem; font-weight: 700; color: $ink; }
+
+  p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: $body;
+    white-space: pre-line;           /* respeita quebras de linha do cadastro */
+  }
+}
+
+/* ---------- Barra fixa (celular) ---------- */
+.sticky-buy {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 900;                       /* abaixo do header (1000) */
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+  background: #fff;
+  border-top: 1px solid $line;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.06);
+
+  @media (min-width: 992px) { display: none; }
+
+  .sticky-price {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
+    flex-direction: column;
+    line-height: 1.1;
+
+    .sticky-label { font-size: 0.7rem; color: $muted; }
+    strong { font-size: 1.25rem; font-weight: 800; color: $marsala; }
   }
 
-  /* Estilo do botão primário */
-  .buy-now-button {
-    background-color: var(--primary-color);
-    color: white;
-    order: 1; /* Garante que seja o primeiro */
-
-    &:hover {
-      background-color: var(--primary-color-dark);
-      transform: translateY(-2px); /* Efeito de elevação */
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-  }
-
-  /* Estilo do botão secundário */
-  .add-to-cart-button {
-    background-color: transparent;
-    color: var(--primary-color);
-    border-color: var(--primary-color);
-    order: 2; /* Garante que seja o segundo */
-    
-    &:hover {
-      background-color: var(--primary-color);
-      color: white;
-    }
-  }
-
-  /* Estilo do botão de Dúvidas */
-  .whatsapp-button {
-    background-color: #e9f5ec;
-    color: var(--success-color);
-    border-color: transparent;
-    order: 3; /* Garante que seja o terceiro */
-
-    &:hover {
-      background-color: #d4edda;
-    }
-  }
-  
-  .notify-button {
-    background-color: var(--text-color-light);
-    color: white;
-    order: 1;
-     &:hover { background-color: var(--text-color-dark); }
-  }
-}
-
-
-  .add-to-cart-button, .notify-button {
-    background-color: var(--primary-color);
-    color: white;
-    &:hover { background-color: var(--primary-color-dark); }
-    &:disabled { background-color: #ccc; cursor: not-allowed; }
-  }
-  
-  .notify-button {
-    background-color: var(--text-color-light);
-     &:hover { background-color: var(--text-color-dark); }
-  }
-
-  .whatsapp-button {
-    background-color: transparent;
-    color: var(--success-color);
-    border-color: var(--success-color);
-    &:hover { background-color: #e9f5ec; }
-  }
-
-
-// --- 10. Descrição e Cross-sell ---
-.description-section, .cross-sell-section {
-  border-top: 1px solid var(--border-color);
-  padding-top: 1.5rem;
-  margin-top: 2rem;
-
-  h2 { margin-top: 0; font-size: 1.5rem; color: var(--text-color-dark); }
-  p { line-height: 1.8; color: #555; }
-}
-
-.related-products {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 1rem;
-}
-
-.related-product-card {
-  background-color: var(--surface-color);
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius);
-  padding: 1rem;
-  text-align: center;
-
-  img { max-width: 100%; height: 120px; object-fit: contain; margin-bottom: 1rem; }
-  h3 { font-size: 1rem; margin: 0 0 0.5rem 0; }
-  .price { font-weight: 600; color: var(--primary-color); display: block; margin-bottom: 1rem; }
-  .btn-add-small { 
-    width: 100%; padding: 0.5rem; border: 1px solid var(--primary-color); 
-    background: transparent; color: var(--primary-color); border-radius: 6px;
+  .sticky-cta {
+    flex: 1;
+    min-height: 48px;
+    border: 0;
+    border-radius: 999px;
+    background: $marsala;
+    color: #fff;
+    font-size: 0.98rem;
+    font-weight: 700;
     cursor: pointer;
-    &:hover { background: var(--primary-color); color: white; }
+
+    &:active { background: $marsala-hover; }
+    &:focus-visible { outline: 3px solid rgba($marsala, 0.4); outline-offset: 2px; }
   }
 }
 
-// --- 11. Estado de Loading ---
+/* ---------- Carregando ---------- */
 .loading-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  min-height: 50vh;
-  gap: 1rem;
-  color: var(--text-color-light);
+  gap: 12px;
+  padding: 80px 16px;
+  color: $muted;
+
   .spinner {
-    width: 40px; height: 40px; border: 4px solid var(--border-color);
-    border-top-color: var(--primary-color); border-radius: 50%;
-    animation: spin 1s linear infinite;
+    width: 36px;
+    height: 36px;
+    border: 3px solid $line;
+    border-top-color: $marsala;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
   }
+
+  .loading-message { margin: 0; font-size: 0.9rem; }
 }
+
 @keyframes spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-container .spinner { animation-duration: 2s; }
+  * { transition: none !important; }
+}

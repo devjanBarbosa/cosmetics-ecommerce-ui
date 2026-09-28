@@ -1,17 +1,19 @@
-// --- 1. Design System (Variáveis) ---
 :host {
-  --primary-color: #A15A70;
-  --text-color-dark: #2c3e50;
-  --text-color-light: #8492a6;
+  --primary-color: #78283a;
+  --text-color-dark: #1f2937;
+  --text-color-light: #4b5563;      /* o #8492a6 antigo não tem contraste suficiente */
   --surface-color: #ffffff;
-  --background-color: #f7f9fc;
-  --border-color: #e9ecef;
-  --star-color: #f59e0b; // Amarelo/dourado para as estrelas
-  --border-radius: 12px;
-  --shadow-subtle: 0 4px 12px rgba(0, 0, 0, 0.04);
-  --shadow-strong: 0 8px 30px rgba(0, 0, 0, 0.08);
+  --background-color: #faf8f8;
+  --border-color: #eee9e9;
+  --star-color: #f59e0b;
+  --border-radius: 16px;
+  --shadow-subtle: 0 2px 10px rgba(0, 0, 0, 0.03);
+  --shadow-strong: 0 12px 24px rgba(0, 0, 0, 0.08);
+  --swiper-navigation-color: #78283a;   /* setas no vinho, em vez do azul padrão */
+  --swiper-navigation-size: 22px;
 }
 
+.reviews-section { padding: 40px 0 48px; }
 // --- 2. Container Principal da Secção ---
 .reviews-section {
   padding: 4rem 0;
@@ -21,23 +23,22 @@
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1.5rem;
-  text-align: center;
+  padding: 0 16px;
+  text-align: left;
 
   h2 {
-    font-size: 2.5rem;
-    font-weight: 700;
+    margin: 0 0 4px;
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
     color: var(--text-color-dark);
-    margin-bottom: 1rem;
+    @media (min-width: 768px) { font-size: 1.85rem; }
   }
-  
-  p {
-    font-size: 1.1rem;
+
+  .section-sub {
+    margin: 0 0 24px;
+    font-size: 0.92rem;
     color: var(--text-color-light);
-    margin-bottom: 3rem;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
   }
 }
 
@@ -47,12 +48,12 @@ swiper-container {
 }
 
 swiper-slide {
-  height: auto; // Garante que a altura se ajuste ao conteúdo do card
-  max-width: 350px;
-  padding: 0.5rem; // Pequeno espaçamento para a sombra não ser cortada
+  width: 82%;
+  max-width: 340px;
+  height: auto;
+  padding: 0.5rem;
 }
 
-// --- 4. Card de Avaliação (Onde a magia acontece) ---
 .review-card {
   display: flex;
   flex-direction: column;

@@ -13,6 +13,8 @@ export interface CampaignBanner {
   note?: string;
   whatsappText?: string;
   menuLabel?: string; 
+  categoriaNome?: string;                      // nome da categoria no painel
+  categoriaTipo?: 'PRODUTO' | 'PRESENTE';
   
 }
 

@@ -15,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ProductListComponent {
   
+  @Input() maxMobile?: number; 
   @Input() produtos: Produto[] | null = [];
   @Input() titulo: string | null = 'Destaques da Semana';
 

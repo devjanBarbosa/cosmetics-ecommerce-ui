@@ -10,9 +10,9 @@ $bg-section: #fdfbfb;
 $card-border: #f1eeee;
 
 .campaign-showcase {
-  padding: 40px 16px 56px;
-  background-color: $bg-section;
-  border-bottom: 1px solid #f0e9e9;
+  padding: 48px 16px 24px;
+  background: transparent; 
+  border-bottom: 0;  
 
   .container {
     max-width: 1200px;
@@ -251,6 +251,8 @@ $card-border: #f1eeee;
           margin-top: 2px;
         }
       }
+
+      .badge.stock-badge { bottom: 8px; left: 8px; background: #fff; color: $brand-wine; }
 
       // Botão de Conversão Direta
       .card-actions {

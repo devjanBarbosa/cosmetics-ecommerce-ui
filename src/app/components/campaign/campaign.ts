@@ -18,6 +18,8 @@ export const CAMPANHAS: Campanha[] = [
     image: 'dia-do-professor.jpg',
     imageAlt: 'Kit de hidratante e sabonete com cartão de agradecimento',
     whatsappText: 'Olá, Leda! Quero um kit para professor(a) com cartão personalizado.',
+    categoriaNome: 'Dia dos Professores',
+    categoriaTipo: 'PRESENTE' 
   },
   // próxima data: copie o bloco acima, troque os campos e as datas
 ];

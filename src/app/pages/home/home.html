@@ -1,48 +1,73 @@
 <main class="home-container">
-  
-  <!-- BLOCO 1: Hero Section -->
-   <app-campaign-banner [banner]="banner" [priority]="true" />
 
-  <!-- BLOCO 2: Faixa de Aviso -->
+  <app-campaign-banner [banner]="banner" [priority]="true" />
+
   <section class="benefits" aria-label="Vantagens da loja">
-  <ul class="benefits-list">
-    <li>
-      <i class="bi bi-truck"></i>
-      <div>
-        <strong>Entrega grátis em Bangu</strong>
-        <span>Em compras a partir de R$ 50</span>
-      </div>
-    </li>
-    <li>
-      <i class="bi bi-gift"></i>
-      <div>
-        <strong>Kits prontos para presente</strong>
-        <span>Personalize pelo WhatsApp</span>
-      </div>
-    </li>
-    <li>
-      <i class="bi bi-shop"></i>
-      <div>
-        <strong>Retire na loja</strong>
-        <span>Estr. da Água Branca, 4497</span>
-      </div>
-    </li>
-    <li>
-      <i class="bi bi-credit-card"></i>
-      <div>
-        <strong>Pague como preferir</strong>
-        <span>Pix e cartão</span>
-      </div>
-    </li>
-  </ul>
-</section>
+    <ul class="benefits-list">
+      <li><i class="bi bi-truck"></i><div><strong>Entrega grátis</strong><span>Em Bangu, a partir de R$ 50</span></div></li>
+      <li><i class="bi bi-gift"></i><div><strong>Kits prontos</strong><span>Personalize pelo WhatsApp</span></div></li>
+      <li><i class="bi bi-shop"></i><div><strong>Retire na loja</strong><span>Estr. da Água Branca, 4497</span></div></li>
+      <li><i class="bi bi-credit-card"></i><div><strong>Pix e cartão</strong><span>Pague como preferir</span></div></li>
+    </ul>
+  </section>
 
-<app-campaign-showcase
-  categoriaTermo="professores"
-  tagCampanha="Edição Especial"
-  titulo="Presentes para o Dia dos Professores"
-  subtitulo="Kits prontos montados com carinho para homenagear quem ensina."
-  textoWhatsappCampanha="Dia dos Professores">
-</app-campaign-showcase>
+  <app-campaign-showcase
+    *ngIf="banner.categoriaNome"
+    [categoriaNome]="banner.categoriaNome"
+    [tipo]="banner.categoriaTipo ?? 'PRESENTE'"
+    [tagCampanha]="banner.menuLabel ?? 'Campanha'"
+    [titulo]="banner.title"
+    subtitulo="Kits prontos para agradecer com carinho."
+    linkVerTodos="/presentes" />
+
+  <app-product-list [produtos]="produtosEmDestaque" titulo="Destaques da semana" [maxMobile]="4"></app-product-list>
+
+  <div class="see-all-wrap">
+  <a routerLink="/produtos" class="see-all-btn">Ver todos os produtos <i class="bi bi-arrow-right"></i></a>
+</div>
+
+  <!-- Presentes por quanto você quer gastar -->
+  <section class="budget" aria-labelledby="budget-title">
+    <div class="budget-inner">
+      <h2 id="budget-title">Presente para todos os bolsos</h2>
+      <p class="budget-sub">Escolha pelo quanto você quer gastar.</p>
+
+      <div class="budget-grid">
+        <a class="budget-card" [routerLink]="['/presentes']" [queryParams]="paramsFaixa('lembrancinha')">
+          <span class="budget-price">Até R$ 50</span>
+          <span class="budget-desc">Lembrancinhas e mimos</span>
+          <i class="bi bi-arrow-right"></i>
+        </a>
+        <a class="budget-card" [routerLink]="['/presentes']" [queryParams]="paramsFaixa('especiais')">
+          <span class="budget-price">R$ 50 a R$ 150</span>
+          <span class="budget-desc">Presentes especiais</span>
+          <i class="bi bi-arrow-right"></i>
+        </a>
+        <a class="budget-card" [routerLink]="['/presentes']" [queryParams]="paramsFaixa('inesquec')">
+          <span class="budget-price">Acima de R$ 150</span>
+          <span class="budget-desc">Presentes inesquecíveis</span>
+          <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Avaliações: só deixe se já houver avaliações reais -->
+  <app-reviews></app-reviews>
+
+  <!-- Conheça a Leda -->
+  <section class="about-leda" aria-labelledby="about-title">
+    <div class="about-inner">
+      <img src="perfil-leda.jpg" alt="Leda, dona da Leda Cosméticos" loading="lazy" />
+      <div class="about-text">
+        <span class="about-tag">Conheça a Leda</span>
+        <h2 id="about-title">Cada kit é montado à mão, aqui em Bangu</h2>
+        <p>Uma loja de bairro, com atendimento de perto. Conte para a gente para quem é o presente, e nós ajudamos a escolher e a personalizar.</p>
+        <a class="about-cta" href="https://wa.me/5521997883761" target="_blank" rel="noopener noreferrer">
+          <i class="bi bi-whatsapp"></i> Falar com a Leda
+        </a>
+      </div>
+    </div>
+  </section>
 
 </main>

@@ -1,86 +1,116 @@
 <div class="product-detail-container" *ngIf="produto; else loading">
-  
+
+  <!-- Trilha de navegação -->
+  <nav class="breadcrumb" aria-label="Você está em">
+    <a routerLink="/">Início</a>
+    <i class="bi bi-chevron-right" aria-hidden="true"></i>
+    <a routerLink="/produtos">Produtos</a>
+    <ng-container *ngIf="produto.categoria?.nome">
+      <i class="bi bi-chevron-right" aria-hidden="true"></i>
+
+      <a [routerLink]="['/produtos']" [queryParams]="{ categoria: produto.categoria.id }">
+        {{ produto.categoria.nome }}
+      </a>
+    </ng-container>
+  </nav>
+
+  <!-- Foto -->
   <div class="product-gallery">
     <div class="main-image-wrapper">
-      <img [src]="produto.urlImagem" [alt]="'Imagem principal do produto ' + produto.nome">
+      <img [src]="produto.urlImagem"
+           [alt]="'Imagem principal do produto ' + produto.nome"
+           (error)="$any($event.target).classList.add('img-error')">
+      <span class="badge-low" *ngIf="produto.estoque > 0 && produto.estoque <= 5">Últimas unidades</span>
     </div>
   </div>
 
+  <!-- Informações -->
   <div class="product-info">
+
+    <span class="category-tag" *ngIf="produto.categoria?.nome">{{ produto.categoria?.nome }}</span>
     <h1 class="product-title">{{ produto.nome }}</h1>
 
-    <div class="reviews-summary">
-      <div class="star-rating">
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-half"></i>
-      </div>
-      <a href="#reviews" class="reviews-count">(12 avaliações)</a>
-    </div>
-    
     <div class="price-section">
       <span class="product-price">{{ produto.preco | currency:'BRL' }}</span>
       <span class="installment-option">ou em até 3x de {{ (produto.preco / 3) | currency:'BRL' }} sem juros</span>
     </div>
 
-    <div class="local-perks">
-      <div class="perk-item">
-        <i class="bi bi-truck"></i> <span>Entrega rápida no seu bairro!</span>
-      </div>
-      <div class="perk-item">
-        <i class="bi bi-shop"></i> <span>Retire na loja hoje mesmo.</span>
-      </div>
+    <!-- Frete grátis: mostra quanto falta quando o produto está abaixo de R$ 50 -->
+    <div class="shipping-note" [class.is-free]="produto.preco >= 50">
+      <i class="bi bi-truck" aria-hidden="true"></i>
+      <span *ngIf="produto.preco >= 50"><strong>Entrega grátis</strong> para Bangu e região</span>
+      <span *ngIf="produto.preco < 50">
+        Entrega grátis em Bangu a partir de R$ 50.
+        Adicione mais <strong>{{ (50 - produto.preco) | currency:'BRL' }}</strong> e ganhe o frete.
+      </span>
     </div>
-    
-    <div *ngIf="produto.estoque > 0" class="stock-info in-stock">
-      <p>✅ <strong>Em estoque</strong> ({{ produto.estoque }} unidades restantes)</p>
+
+    <!-- Estoque: só chama atenção quando é baixo ou esgotado -->
+    <p class="stock-info low" *ngIf="produto.estoque > 0 && produto.estoque <= 5">
+      <i class="bi bi-exclamation-circle" aria-hidden="true"></i>
+      Restam apenas {{ produto.estoque }} {{ produto.estoque === 1 ? 'unidade' : 'unidades' }}
+    </p>
+    <p class="stock-info in-stock" *ngIf="produto.estoque > 5">
+      <i class="bi bi-check-circle" aria-hidden="true"></i> Em estoque
+    </p>
+    <p class="stock-info out-of-stock" *ngIf="produto.estoque === 0">
+      <i class="bi bi-x-circle" aria-hidden="true"></i> Produto esgotado
+    </p>
+
+    <!-- Ações -->
+    <div class="actions">
+      <ng-container *ngIf="produto.estoque > 0">
+        <button type="button" class="buy-now-button" (click)="comprarAgora()">
+          <i class="bi bi-lightning-charge-fill" aria-hidden="true"></i> Comprar agora
+        </button>
+        <button type="button" class="add-to-cart-button" (click)="adicionarAoCarrinho()">
+          <i class="bi bi-bag-plus" aria-hidden="true"></i> Adicionar ao carrinho
+        </button>
+      </ng-container>
+
+      <ng-container *ngIf="produto.estoque === 0">
+        <button type="button" class="notify-button" (click)="notificarDisponibilidade()">
+          <i class="bi bi-bell" aria-hidden="true"></i> Avise-me quando chegar
+        </button>
+      </ng-container>
+
+      <a [href]="getWhatsappLink()" target="_blank" rel="noopener noreferrer" class="whatsapp-button">
+        <i class="bi bi-whatsapp" aria-hidden="true"></i> <span>Dúvidas? Fale com a gente</span>
+      </a>
     </div>
-    <div *ngIf="produto.estoque === 0" class="stock-info out-of-stock">
-      <p>❌ <strong>Produto esgotado.</strong></p>
-    </div>
-    
-    <!-- AÇÕES DO UTILIZADOR -->
-<div class="actions">
-  <ng-container *ngIf="produto.estoque > 0">
-    <!-- 1. Botão "Comprar agora" (ação primária) -->
-    <button class="buy-now-button" (click)="comprarAgora()">
-      <i class="bi bi-lightning-charge-fill"></i> Comprar agora
-    </button>
-    <!-- 2. Botão "Adicionar ao carrinho" (ação secundária) -->
-    <button class="add-to-cart-button" (click)="adicionarAoCarrinho()">
-      Adicionar ao carrinho
-    </button>
-  </ng-container>
 
-  <ng-container *ngIf="produto.estoque === 0">
-    <button class="notify-button" (click)="notificarDisponibilidade()">
-      Avise-me quando chegar
-    </button>
-  </ng-container>
+    <!-- Garantias da loja -->
+    <ul class="local-perks">
+      <li class="perk-item">
+        <i class="bi bi-truck" aria-hidden="true"></i>
+        <div><strong>Entrega rápida</strong><span>Em Bangu e região</span></div>
+      </li>
+      <li class="perk-item">
+        <i class="bi bi-shop" aria-hidden="true"></i>
+        <div><strong>Retire na loja</strong><span>Estr. da Água Branca, 4497</span></div>
+      </li>
+      <li class="perk-item">
+        <i class="bi bi-credit-card" aria-hidden="true"></i>
+        <div><strong>Pix e cartão</strong><span>Pague como preferir</span></div>
+      </li>
+    </ul>
 
-  <!-- 3. Botão "Dúvidas" (ação terciária) -->
-  <a [href]="getWhatsappLink()" target="_blank" rel="noopener" class="whatsapp-button">
-    <i class="bi bi-whatsapp"></i> <span>Dúvidas? Fale connosco</span>
-  </a>
-</div>
-
-
-  <ng-container *ngIf="produto.estoque === 0">
-    <button class="notify-button" (click)="notificarDisponibilidade()">
-      Avise-me quando chegar
-    </button>
-  </ng-container>
-
-</div>
-
-
-    <div class="description-section">
-      <h2>Descrição</h2>
+    <div class="description-section" *ngIf="produto.descricao">
+      <h2>Sobre o produto</h2>
       <p>{{ produto.descricao }}</p>
     </div>
   </div>
+
+  <!-- Barra fixa de compra (somente celular) -->
+  <div class="sticky-buy" *ngIf="produto.estoque > 0">
+    <div class="sticky-price">
+      <span class="sticky-label">Preço</span>
+      <strong>{{ produto.preco | currency:'BRL' }}</strong>
+    </div>
+    <button type="button" class="sticky-cta" (click)="comprarAgora()">Comprar agora</button>
+  </div>
+
+</div>
 
 <ng-template #loading>
   <div class="loading-container">
