@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { RouterLink } from '@angular/router';
 
 export interface CampaignBanner {
-  id: string;                 // usado no tracking, ex.: 'dia-do-professor-2026'
+  id: string;               
   title: string;
   subtitle: string;
   ctaLabel: string;
