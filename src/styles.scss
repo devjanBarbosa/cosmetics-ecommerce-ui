@@ -15,6 +15,12 @@ main {
 }
 
 h2, h3 {
-  color: #E91E63; /* Rosa principal para títulos */
+  color: #A15A70; /* Rosa principal para títulos */
 }
 
+html, body { overflow-x: clip; }
+
+h2 {
+  color: #fff;
+  /* ...o resto continua igual */
+}

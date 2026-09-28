@@ -1,0 +1,15 @@
+diff a/src/app/components/product-list/product-list.scss b/src/app/components/product-list/product-list.scss	(rejected hunks)
+@@ -1,10 +1,10 @@
+ :host {
+-  --primary-color: #E91E63;
+-  --primary-color-dark: #C2185B;
++  --primary-color: #A15A70;
++  --primary-color-dark: #7A3B4A;
+   --text-color: #333;
+   --card-border-color: #f0f0f0;
+   --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+-  --card-hover-shadow: 0 8px 25px rgba(233, 30, 99, 0.12);
++  --card-hover-shadow: 0 8px 25px rgba(161, 90, 112, 0.12);
+   --border-radius: 12px;
+ }
+ 

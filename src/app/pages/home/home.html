@@ -1,48 +1,40 @@
-<div class="local-delivery-badge">
-  <i class="bi bi-geo-alt-fill"></i>
-  <span>Entrega expressa em <strong>Bangu e região</strong></span>
-</div>
+<main class="home-container">
+  
+  <!-- BLOCO 1: Hero Section -->
+   <app-campaign-banner [banner]="banner" [priority]="true" />
 
-<section class="brand-pills-container">
-  <div class="brand-pills-scroll">
-    <button class="brand-pill">Natura</button>
-    <button class="brand-pill">O Boticário</button>
-    <button class="brand-pill">Avon</button>
-    <button class="brand-pill">Eudora</button>
-  </div>
+  <!-- BLOCO 2: Faixa de Aviso -->
+  <section class="benefits" aria-label="Vantagens da loja">
+  <ul class="benefits-list">
+    <li>
+      <i class="bi bi-truck"></i>
+      <div>
+        <strong>Entrega grátis em Bangu</strong>
+        <span>Em compras a partir de R$ 50</span>
+      </div>
+    </li>
+    <li>
+      <i class="bi bi-gift"></i>
+      <div>
+        <strong>Kits prontos para presente</strong>
+        <span>Personalize pelo WhatsApp</span>
+      </div>
+    </li>
+    <li>
+      <i class="bi bi-shop"></i>
+      <div>
+        <strong>Retire na loja</strong>
+        <span>Estr. da Água Branca, 4497</span>
+      </div>
+    </li>
+    <li>
+      <i class="bi bi-credit-card"></i>
+      <div>
+        <strong>Pague como preferir</strong>
+        <span>Pix e cartão</span>
+      </div>
+    </li>
+  </ul>
 </section>
 
-<app-product-list [produtos]="produtosEmDestaque" titulo="Destaques da Semana"></app-product-list>
-
-<app-welcome></app-welcome>
-
-<section class="category-section">
-  <div class="container">
-    <h2 class="section-title">Categorias</h2>
-    
-    <div class="category-grid">
-      
-      <a *ngFor="let categoria of categoriasDeProduto" 
-         [routerLink]="['/produtos']" 
-         [queryParams]="{ categoria: categoria.id }" 
-         class="category-card --grid-style">
-        
-        <div class="category-image-wrapper">
-          <img *ngIf="categoria.urlImagem" [src]="categoria.urlImagem" [alt]="categoria.nome">
-          <div *ngIf="!categoria.urlImagem" class="category-image-placeholder">
-            <i class="bi bi-box-seam-fill"></i>
-          </div>
-        </div>
-        
-        <div class="category-name">
-          <h3>{{ categoria.nome }}</h3>
-        </div>
-      </a>
-      
-    </div>
-  </div>
-</section>
-
-<app-product-list [produtos]="produtosEmDestaque" titulo="Destaques da Semana"></app-product-list>
-
-<app-reviews></app-reviews>
+</main>

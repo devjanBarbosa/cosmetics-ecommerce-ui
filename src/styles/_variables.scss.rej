@@ -1,0 +1,7 @@
+diff a/src/styles/_variables.scss b/src/styles/_variables.scss	(rejected hunks)
+@@ -1,2 +1,2 @@
+ 
+-$rosa-principal: #FF69B4;
+\ No newline at end of file
++$rosa-principal: #A15A70;
+\ No newline at end of file

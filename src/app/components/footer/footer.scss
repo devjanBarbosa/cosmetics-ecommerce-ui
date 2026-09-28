@@ -1,16 +1,89 @@
 :host {
-  --primary-color: #E91E63;
+  --primary-color: #A15A70;
   --footer-bg: #212529;
   --footer-text: #adb5bd;
   --footer-title-color: #ffffff;
   --footer-border-color: #343a40;
 }
 
+$primary-marsala: #78283a;
+$neutral-light: #e5e7eb;
+$neutral-muted: #9ca3af;
+
 .site-footer {
-  background-color: var(--footer-bg);
-  color: var(--footer-text);
-  padding-top: 3rem;
-  font-size: 0.9rem;
+  background-color: #212529; // Tom escuro do footer
+  color: $neutral-light;
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+
+    i {
+      color: $primary-marsala;
+      font-size: 1.1rem;
+    }
+
+    /* Remove o azul padrão dos navegadores e aplica estilo elegante */
+    .contact-link {
+      color: $neutral-light;
+      text-decoration: none;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: #ffffff;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .footer-section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  .map-wrapper {
+    position: relative;
+    width: 100%;
+    height: 160px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    background-color: #2d3748;
+
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+  }
+
+  .directions-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: $primary-marsala;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    max-width: 180px;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
 }
 
 .footer-container {
@@ -40,6 +113,7 @@
     height: 2px;
     background-color: var(--primary-color);
   }
+}
 }
 
 .footer-description {
@@ -88,24 +162,6 @@
   }
 }
 
-.map-wrapper {
-  height: 200px;
-  border-radius: 8px;
-  overflow: hidden;
-  background-color: var(--footer-border-color);
-  transition: opacity 0.5s;
-  opacity: 0; // Começa invisível
-  &.loaded {
-    opacity: 1; // Fica visível quando o mapa carrega
-  }
-  .map-fallback {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-}
 
 .footer-bottom {
   background-color: #1c1f23;
@@ -155,9 +211,9 @@
   transition: all 0.2s ease;
 
   &:hover {
-    background-color: #C2185B; // Tom mais escuro do seu rosa
+    background-color: #7A3B4A; // Tom mais escuro do seu rosa
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
+    box-shadow: 0 4px 15px rgba(161, 90, 112, 0.3);
   }
   
 }

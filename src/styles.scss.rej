@@ -1,0 +1,9 @@
+diff a/src/styles.scss b/src/styles.scss	(rejected hunks)
+@@ -15,6 +15,6 @@ main {
+ }
+ 
+ h2, h3 {
+-  color: #E91E63; /* Rosa principal para títulos */
++  color: #A15A70; /* Rosa principal para títulos */
+ }
+ 

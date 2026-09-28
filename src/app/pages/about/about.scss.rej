@@ -1,0 +1,8 @@
+diff a/src/app/pages/about/about.scss b/src/app/pages/about/about.scss	(rejected hunks)
+@@ -1,5 +1,5 @@
+ :host {
+-  --primary-color: #E91E63;
++  --primary-color: #A15A70;
+   --text-color: #333;
+   --text-light: #666;
+ }

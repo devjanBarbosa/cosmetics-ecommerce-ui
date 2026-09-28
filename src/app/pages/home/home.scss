@@ -1,438 +1,63 @@
-// --- 1. Design System (Variáveis) ---
-:host {
-  --primary-color: #E91E63;
-  --primary-color-dark: #C2185B;
-  --text-color-dark: #2c3e50;
-  --text-color-light: #8492a6;
-  --text-on-primary: #ffffff;
-  --surface-color: #ffffff;
-  --background-color: #f7f9fc;
-  --border-color: #e9ecef;
-  --border-radius: 12px;
-  --shadow-subtle: 0 4px 12px rgba(0, 0, 0, 0.04);
-  --shadow-strong: 0 8px 30px rgba(0, 0, 0, 0.08);
-}
+/* Variáveis de Cor (Light Clean) */
+$bg-color: #F9FAFB;
+$card-bg: #FFFFFF;
+$border-color: #E5E7EB;
+$text-main: #1F2937;
+$text-muted: #6B7280;
+$brand-color: #8C384D; /* Tom igual ao teu header */
 
-/* ====================================================================
-   1. AVISO LOCAL (Topo)
-   ==================================================================== */
-.local-delivery-badge {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background-color: #fdf2f8; /* Fundo rosa bem clarinho (Tailwind pink-50) */
-  color: var(--primary-color-dark);
-  padding: 8px 16px;
-  font-size: 0.85rem;
-  text-align: center;
-  border-bottom: 1px solid #fbcfe8;
-
-  i {
-    font-size: 1rem;
-    color: var(--primary-color);
-  }
-
-  strong {
-    font-weight: 700;
-  }
-}
-
-/* ====================================================================
-   2. NAVEGAÇÃO POR MARCAS (Pílulas Deslizáveis)
-   ==================================================================== */
-.brand-pills-container {
-  background-color: var(--surface-color);
-  padding: 16px;
-  border-bottom: 1px solid var(--border-color);
-  
-  /* Centraliza no desktop, mas mantém limite legível */
-  max-width: 1100px;
+/* Container da Home */
+.home-container {
+  max-width: none;
+  padding: 0; /* Mantém o conteúdo elegante no desktop */
   margin: 0 auto;
+  background-color: $bg-color;
 }
 
-.brand-pills-scroll {
-  display: flex;
-  overflow-x: auto;
-  gap: 12px;
-  padding-bottom: 4px; /* Respiro para não cortar a sombra */
-  
-  /* No desktop centraliza, no mobile alinha à esquerda para scroll */
-  justify-content: flex-start;
-  @media (min-width: 768px) {
-    justify-content: center;
-  }
-  
-  /* Esconde a barra de rolagem nativa */
-  scrollbar-width: none; 
-  &::-webkit-scrollbar { display: none; }
+.benefits {
+  background: #fff;
+  border-bottom: 1px solid #f3f4f6;
 }
 
-.brand-pill {
-  flex-shrink: 0; /* Impede que o botão seja esmagado */
-  background-color: var(--surface-color);
-  border: 1px solid var(--border-color);
-  color: var(--text-color-dark);
-  font-size: 0.85rem;
-  font-weight: 600;
-  padding: 8px 20px;
-  border-radius: 50px; /* Formato de pílula arredondada */
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-
-  &:hover, &:active {
-    background-color: var(--primary-color);
-    color: var(--text-on-primary);
-    border-color: var(--primary-color);
-    transform: translateY(-1px);
-  }
-}
-// ====================================================================
-// 3. MARCAS (Carrossel Horizontal com scroll invisível)
-// ====================================================================
-.brand-banner {
-  background-color: var(--surface-color);
-  padding: 1rem;
-  border-bottom: 1px solid var(--border-color);
-  max-width: 560px;
+.benefits-list {
+  max-width: 1200px;
   margin: 0 auto;
-
-  .brand-list {
-    display: flex;
-    overflow-x: auto;
-    gap: 0.75rem;
-    padding-bottom: 0.25rem;
-    
-    /* Esconde a barra de rolagem nativa para ficar com visual limpo */
-    scrollbar-width: none; 
-    &::-webkit-scrollbar { display: none; }
-  }
-
-  .brand-item {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text-color-dark);
-    border: 1px solid var(--border-color);
-    padding: 0.4rem 1.25rem;
-    border-radius: 50px;
-    white-space: nowrap; // Impede que o nome quebre em duas linhas
-    background: var(--surface-color);
-    transition: all 0.2s ease;
-    cursor: pointer;
-
-    &:active, &:hover {
-      background-color: var(--primary-color-light);
-      border-color: var(--primary-color);
-      color: var(--primary-color-dark);
-    }
-  }
-}
-
-// ====================================================================
-// >>> ESTILO PROFISSIONAL PARA O BOTÃO <<<
-// ====================================================================
-.btn-primary {
-  display: inline-block; // Permite a aplicação de padding
-  background-color: var(--primary-color);
-  color: var(--text-on-primary);
-  text-decoration: none;
-  padding: 0.8rem 2.5rem; // Ligeiramente maior para mais destaque
-  border-radius: 50px;
-  font-weight: 600; // Um pouco mais forte
-  font-size: 1rem;
-  border: 2px solid transparent;
-  transition: all 0.2s ease-in-out;
-  box-shadow: 0 4px 15px rgba(233, 30, 99, 0.2);
-
-  &:hover {
-    background-color: var(--primary-color-dark);
-    transform: translateY(-2px); // Efeito de elevação
-    box-shadow: 0 6px 20px rgba(233, 30, 99, 0.3);
-  }
-}
-
-.diferenciais-section {
-  // 1. Layout Flexbox para alinhar os itens horizontalmente
-  display: flex;
-  justify-content: space-around; // Distribui os itens igualmente
-  flex-wrap: wrap; // Permite quebrar a linha em telas muito pequenas
-  
-  // 2. Visual de "faixa"
-  background-color: var(--background-color); // Um fundo sutil para separar do resto
-  padding: 1.5rem 1rem; // Mais compacto verticalmente
-  border-top: 1px solid var(--border-color);
-  border-bottom: 1px solid var(--border-color);
-  gap: 1.5rem; // Espaçamento entre os itens
-}
-
-.diferencial-item {
-  display: flex;
-  align-items: center; // Alinha ícone e texto
-  gap: 0.75rem;
-  text-align: left; // Alinha o texto à esquerda do ícone
-
-  i {
-    font-size: 2rem; // Ícones um pouco menores
-    color: var(--primary-color);
-  }
-  
-  h3 {
-    font-size: 0.9rem; // Título mais sutil
-    font-weight: 600;
-    color: var(--text-color-dark);
-    margin: 0;
-  }
-
-  p {
-    display: none; // 3. Escondemos o parágrafo em telas maiores para economizar espaço
-  }
-  
-  // Para telas menores, voltamos a mostrar o parágrafo para mais clareza
-  @media (max-width: 768px) {
-    flex-direction: column; // Ícone em cima, texto embaixo
-    text-align: center;
-    flex-basis: 100%; // Cada item ocupa a largura toda
-    
-    p {
-      display: block; // Mostra o parágrafo novamente
-      font-size: 0.85rem;
-      color: var(--text-color-light);
-      line-height: 1.5;
-      margin: 0.25rem 0 0 0;
-    }
-  }
-}
-
-// --- 4. Secções de Carrossel (Categorias e Presentes) ---
-.category-section, .gift-section {
-  padding: 1.5rem 1rem;
-  background-color: var(--background-color);
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-.section-title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--text-color-dark);
-  margin-bottom: 1rem;
-  text-align: left; /* Títulos alinhados à esquerda dão visual de app */
-}
-
-/* Ajustando a grade para o mobile */
-.category-grid {
+  padding: 20px 16px;
+  list-style: none;
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 colunas lado a lado */
-  gap: 12px;
-}
-swiper-container {
-  padding: 0 1.5rem 3rem; // Espaço para navegação e paginação
-}
-
-swiper-container::part(button-next),
-swiper-container::part(button-prev) {
-  width: 44px;
-  height: 44px;
-  background-color: var(--surface-color);
-  color: var(--primary-color);
-  border-radius: 50%;
-  box-shadow: var(--shadow-strong);
-  transition: transform 0.2s ease;
-
-  &:hover {
-    transform: scale(1.1);
-    background-color: var(--primary-color);
-    color: white;
-  }
-}
-
-swiper-slide {
-  height: auto;
-  max-width: 280px;
-  display: flex;
-}
-
-// --- 6. Cards de Categoria Aprimorados ---
-.category-card {
-  display: flex;
-  flex-direction: column;
-  text-decoration: none;
-  background-color: var(--surface-color);
-  border-radius: var(--border-radius);
-  overflow: hidden;
-  box-shadow: var(--shadow-subtle);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  width: 100%;
-  height: 100%;
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-strong);
-  }
-
-  .category-image-wrapper {
-    width: 100%;
-    height: 220px;
-    overflow: hidden;
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s ease;
-    }
-  }
-  &:hover .category-image-wrapper img {
-    transform: scale(1.05);
-  }
-
-  .category-name {
-    padding: 1.25rem;
-    text-align: center;
-    margin-top: auto;
-    h3 {
-      margin: 0;
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--text-color-dark);
-    }
-  }
-}
-
-.category-grid {
-  display: grid;
-  // Cria colunas responsivas: 2 no mobile, até 4 em telas grandes
-  grid-template-columns: repeat(2, 1fr); 
-  gap: 1.5rem;
-
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  grid-template-columns: repeat(2, 1fr);   /* celular: 2 x 2 */
+  gap: 16px;
 
   @media (min-width: 992px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-// Estilo específico para os cards que estão na grade
-.category-card.--grid-style {
-  // Ajustes para um visual mais limpo na grade
-  box-shadow: var(--shadow-subtle);
-  border: 1px solid var(--border-color);
-
-  .category-image-wrapper {
-    height: 180px; // Imagens um pouco menores na grade
+    grid-template-columns: repeat(4, 1fr); /* desktop: uma linha */
+    padding: 24px;
+    gap: 24px;
   }
 
-  .category-name h3 {
-    font-size: 1rem; // Fonte um pouco menor para economizar espaço
-  }
-}
-
-// --- 7. Secção de Depoimentos (Prova Social) ---
-.depoimentos-section {
-  padding: 4rem 1.5rem;
-  background-color: var(--surface-color);
-  text-align: center;
-  
-  h2 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 3rem;
-  }
-
-  .depoimentos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  .depoimento-card {
-    background-color: var(--background-color);
-    padding: 2rem;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--border-color);
-    
-    p {
-      font-style: italic;
-      line-height: 1.8;
-      color: var(--text-color-dark);
-      margin: 0 0 1.5rem 0;
-    }
-    .cliente-nome {
-      font-weight: 600;
-      color: var(--primary-color);
-    }
-  }
-}
-@media (max-width: 768px) {
-  swiper-container::part(button-next),
-  swiper-container::part(button-prev) {
-    display: none;
-  }
-}
-
-/* Estilos para o Mini Banner de Marcas */
-.brand-banner {
-  background-color: #f7f9fc; // Um cinza bem claro, quase branco
-  padding: 2.5rem 1.5rem;
-  text-align: center;
-  border-top: 1px solid #e9ecef;
-  border-bottom: 1px solid #e9ecef;
-
-  h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--text-color-dark);
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-  }
-
-  .brand-list {
+  li {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem 1.5rem; // Espaçamento vertical e horizontal
-    margin-bottom: 1.5rem;
-  }
+    align-items: center;
+    gap: 12px;
 
-  .brand-item {
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: var(--text-color-light);
-    border: 1px solid #ced4da;
-    padding: 0.5rem 1.25rem;
-    border-radius: 50px; // Deixa com formato de pílula
-    transition: all 0.2s ease-in-out;
-
-    // Efeito sutil ao passar o mouse
-    &:hover {
-      color: var(--primary-color);
-      border-color: var(--primary-color);
-      transform: translateY(-2px);
+    i {
+      flex-shrink: 0;
+      font-size: 1.6rem;
+      color: #78283a;
     }
-  }
 
-  .availability-check {
-    margin: 0;
-    color: var(--text-color-light);
-    
-    a {
-      color: var(--primary-color);
+    div { display: flex; flex-direction: column; min-width: 0; }
+
+    strong {
+      font-size: 0.85rem;
       font-weight: 600;
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
-      }
+      color: #1f2937;
+      line-height: 1.25;
     }
-  }
-}
-@media (max-width: 768px) {
-  swiper-container::part(button-next),
-  swiper-container::part(button-prev) {
-    display: none;
+
+    span {
+      font-size: 0.78rem;
+      color: #6b7280;
+      line-height: 1.3;
+    }
   }
 }

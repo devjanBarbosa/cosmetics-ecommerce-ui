@@ -1,31 +1,49 @@
 <footer class="site-footer">
   <div class="footer-container">
+    
+    <!-- COLUNA 1: Sobre a Marca e Redes -->
     <div class="footer-section">
-      <h4 class="footer-title">Leda Freitas Cosméticos</h4>
+      <h4 class="footer-title">{{ lojaInfo.nome }}</h4>
       <p class="footer-description">
         Sua loja de cosméticos local, com uma curadoria de produtos feita com carinho para a nossa comunidade.
       </p>
       <div class="social-links">
-        <a [href]="lojaInfo.instagramUrl" target="_blank" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-        <a [href]="lojaInfo.facebookUrl" target="_blank" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-        <a href="https://wa.me/{{lojaInfo.whatsapp}}" target="_blank" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+        <a [href]="lojaInfo.instagramUrl" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <i class="bi bi-instagram"></i>
+        </a>
+        <a [href]="lojaInfo.facebookUrl" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <i class="bi bi-facebook"></i>
+        </a>
+        <a [href]="'https://wa.me/' + lojaInfo.whatsapp" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+          <i class="bi bi-whatsapp"></i>
+        </a>
       </div>
     </div>
 
+    <!-- COLUNA 2: Contato e Horários -->
     <div class="footer-section">
       <h4 class="footer-title">Contato e Horários</h4>
+      
       <div class="contact-item">
         <i class="bi bi-geo-alt-fill"></i>
         <span>{{ lojaInfo.endereco }}, {{ lojaInfo.cidade }}</span>
       </div>
+
       <div class="contact-item">
         <i class="bi bi-telephone-fill"></i>
-        <span (click)="copyToClipboard(lojaInfo.whatsapp, 'WhatsApp')" class="copyable">{{ lojaInfo.whatsapp }}</span>
+        <!-- Permite ligar direto ou abrir no WhatsApp -->
+        <a [href]="'tel:' + lojaInfo.whatsapp" class="contact-link">
+          {{ formatPhone(lojaInfo.whatsapp) }}
+        </a>
       </div>
+
       <div class="contact-item">
         <i class="bi bi-envelope-fill"></i>
-        <span (click)="copyToClipboard(lojaInfo.email, 'Email')" class="copyable">{{ lojaInfo.email }}</span>
+        <a [href]="'mailto:' + lojaInfo.email" class="contact-link">
+          {{ lojaInfo.email }}
+        </a>
       </div>
+
       <ul class="opening-hours">
         <li *ngFor="let horario of lojaInfo.horarios">
           <span>{{ horario.dia }}</span>
@@ -35,31 +53,40 @@
     </div>
 
     <div class="footer-section">
-      <h4 class="footer-title">Nossa Localização</h4>
-      <div class="map-wrapper" #mapContainer [class.loaded]="mapLoaded">
-        <div class="map-fallback" *ngIf="!mapLoaded">
-          <p>A carregar mapa...</p>
-        </div>
-      </div>
-       <button class="directions-btn" (click)="openDirections()">
-        <i class="bi bi-geo-alt-fill"></i>
-        Como Chegar
-      </button>
-    </div>
-    </div>
+  <h4 class="footer-title">Nossa Localização</h4>
+  
+  <div class="map-wrapper">
+  <iframe
+    [src]="mapUrlSafe"
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+    title="Localização da Loja">
+  </iframe>
+</div>
 
+  <button class="directions-btn" (click)="openDirections()">
+    <i class="bi bi-geo-alt-fill"></i>
+    Como Chegar
+  </button>
+</div>
+
+  </div>
+
+  <!-- BARRA INFERIOR: Direitos Autorais, Desenvolvedor e Termos -->
   <div class="footer-bottom">
-    <div class="footer-container">
-      <p>© {{ currentYear }} {{ lojaInfo.nome }}. Todos os direitos reservados.</p>
-        <p class="developer-credit">
+    <div class="footer-container bottom-flex">
+      <p class="copyright">© {{ currentYear }} {{ lojaInfo.nome }}. Todos os direitos reservados.</p>
+      
+      <p class="developer-credit">
         Desenvolvido por 
         <a href="https://www.linkedin.com/in/jan-freitas-barbosa/" target="_blank" rel="noopener noreferrer">
           Jan Luiz de Freitas Barreto Barbosa
         </a>
       </p>
-          <div class="bottom-links">
+
+      <div class="bottom-links">
         <a routerLink="/privacidade">Política de Privacidade</a>
-        <span>•</span>
+        <span class="divider">•</span>
         <a routerLink="/termos">Termos de Uso</a>
       </div>
     </div>

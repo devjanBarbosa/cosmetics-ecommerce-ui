@@ -1,49 +1,127 @@
-<header class="site-header">
-  <div class="main-header">
-    <div class="header-container">
+<header class="site-header"
+        [class.on-home]="isHome"
+        [class.is-transparent]="isHome && !scrolled && !isMenuOpen">
 
+  <aside class="announcement-bar">
+    <div class="announcement-content">
+      <i class="bi bi-truck"></i>
+      <span>Entrega <strong>GRÁTIS</strong> para Bangu e região em compras a partir de R$ 50</span>
+    </div>
+  </aside>
+
+  <div class="header-container">
+
+    <div class="header-row-top">
       <div class="logo">
-        <a routerLink="/" aria-label="Página Inicial">Leda Cosméticos</a>
-      </div>
-
-      <nav class="main-nav" [class.is-active]="isMenuOpen">
-        <div class="nav-item">
-          <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link" (click)="closeMenu()">Home</a>
-        </div>
-        <div class="nav-item dropdown">
-          <a routerLink="/produtos" routerLinkActive="active" class="nav-link">Produtos</a>
-          <div class="dropdown-menu">
-            <a *ngFor="let cat of categoriasDeProduto" [routerLink]="['/produtos']" [queryParams]="{ categoria: cat.id }" class="dropdown-item" (click)="closeMenu()">{{ cat.nome }}</a>
-          </div>
-        </div>
-        <div class="nav-item dropdown">
-          <a routerLink="/presentes" routerLinkActive="active" class="nav-link">Presentes</a>
-          <div class="dropdown-menu">
-            <a *ngFor="let cat of categoriasDePresente" [routerLink]="['/presentes']" [queryParams]="{ categoria: cat.id }" class="dropdown-item" (click)="closeMenu()">{{ cat.nome }}</a>
-          </div>
-        </div>
-        <div class="nav-item">
-          <a routerLink="/sobre-nos" routerLinkActive="active" class="nav-link" (click)="closeMenu()">Sobre Nós</a>
-        </div>
-      </nav>
-
-      <div class="search-bar">
-        <input type="text" placeholder="O que você procura?" #termoPesquisa (keyup.enter)="pesquisar(termoPesquisa.value)">
-        <button (click)="pesquisar(termoPesquisa.value)" aria-label="Buscar"><i class="bi bi-search"></i></button>
-      </div>
-      
-      <div class="header-actions">
-        <a routerLink="/carrinho" class="cart-link" aria-label="Ver carrinho de compras">
-          <i class="bi bi-cart3"></i> 
-          <span *ngIf="hasCartItems()" class="cart-badge">{{ quantidadeItensCarrinho }}</span>
+        <a routerLink="/" aria-label="Leda Cosméticos - Início">
+          <img 
+            src="logo3.svg" 
+            alt="Leda Cosméticos" 
+            class="logo-svg"
+          />
         </a>
-        <button class="menu-toggle" [class.is-active]="isMenuOpen" (click)="toggleMenu()" aria-label="Abrir menu">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
+      </div>
+
+    </div>
+
+    <!-- LINHA 2: Menu Hambúrguer, Barra de Busca e Sacola de Compras -->
+    <div class="header-row-bottom">
+      <!-- Botão Menu Hambúrguer -->
+     <button 
+  class="menu-toggle" 
+  [class.is-active]="isMenuOpen" 
+  (click)="toggleMenu()" 
+  aria-label="Abrir menu de categorias">
+  <i class="bi" [ngClass]="isMenuOpen ? 'bi-x-lg' : 'bi-list'"></i>
+    </button>
+
+      <!-- Barra de Pesquisa em formato pílula -->
+      <div class="search-bar">
+        <input 
+          type="text" 
+          placeholder="O que você procura hoje?" 
+          #termoPesquisa 
+          (keyup.enter)="pesquisar(termoPesquisa.value)"
+        />
+        <button class="search-btn" (click)="pesquisar(termoPesquisa.value)" aria-label="Buscar">
+          <i class="bi bi-search"></i>
         </button>
       </div>
-      
+
+      <!-- Sacola de Compras -->
+      <a routerLink="/carrinho" class="bag-link" aria-label="Ver sacola de compras">
+        <i class="bi bi-bag"></i>
+        <span *ngIf="hasCartItems()" class="bag-badge">{{ quantidadeItensCarrinho }}</span>
+      </a>
     </div>
+
   </div>
+
+  <!-- MENU DROPDOWN / GAVETA -->
+ <nav class="desktop-nav" aria-label="Categorias Desktop">
+  <ul class="category-list">
+
+    <li class="has-dropdown">
+      <a routerLink="/presentes" routerLinkActive="active">Kits & Presentes</a>
+      <ul class="dropdown-hover">
+        <li *ngFor="let cat of categoriasDePresente">
+          <a [routerLink]="['/presentes']" [queryParams]="{ categoria: cat.id }">{{ cat.nome }}</a>
+        </li>
+      </ul>
+    </li>
+
+    <li *ngIf="campanhaMenu">
+      <a class="campaign-link" [routerLink]="campanhaMenu.ctaLink" [queryParams]="campanhaMenu.ctaQueryParams">
+        {{ campanhaMenu.menuLabel }}
+      </a>
+    </li>
+
+    <li class="has-dropdown">
+      <a routerLink="/produtos" routerLinkActive="active">Produtos</a>
+      <ul class="dropdown-hover">
+        <li *ngFor="let cat of categoriasDeProduto">
+          <a [routerLink]="['/produtos']" [queryParams]="{ categoria: cat.id }">{{ cat.nome }}</a>
+        </li>
+      </ul>
+    </li>
+
+    <li class="has-dropdown">
+      <a routerLink="/produtos">Marcas</a>
+      <ul class="dropdown-hover">
+        <li *ngFor="let m of marcas">
+          <a [routerLink]="['/produtos']" [queryParams]="{ marca: m.id }">{{ m.nome }}</a>
+        </li>
+      </ul>
+    </li>
+
+    <li>
+      <a class="whatsapp-pill" href="https://wa.me/5521997883761" target="_blank" rel="noopener noreferrer">
+        <i class="bi bi-whatsapp"></i> Fale no WhatsApp
+      </a>
+    </li>
+
+  </ul>
+</nav>
+
+  <!-- MENU LATERAL MOBILE / DROPDOWN (abre ao clicar no hambúrguer) -->
+  <nav class="mobile-nav" [class.is-active]="isMenuOpen">
+    <div class="nav-item">
+      <a routerLink="/" class="nav-link" (click)="closeMenu()">Home</a>
+    </div>
+    <div class="nav-item">
+      <span class="nav-section-title">Kits & Presentes</span>
+      <div class="sub-menu">
+        <a *ngFor="let cat of categoriasDePresente" [routerLink]="['/presentes']" [queryParams]="{ categoria: cat.id }" class="dropdown-item" (click)="closeMenu()">{{ cat.nome }}</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <span class="nav-section-title">Produtos</span>
+      <div class="sub-menu">
+        <a *ngFor="let cat of categoriasDeProduto" [routerLink]="['/produtos']" [queryParams]="{ categoria: cat.id }" class="dropdown-item" (click)="closeMenu()">{{ cat.nome }}</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <a routerLink="/sobre-nos" class="nav-link" (click)="closeMenu()">Sobre Nós</a>
+    </div>
+  </nav>
 </header>

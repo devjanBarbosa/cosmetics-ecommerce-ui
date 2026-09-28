@@ -1,10 +1,9 @@
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import { GoogleAnalyticsService } from '../../services/googleAnalyticsService';
-
-declare var google: any;
 
 @Component({
   selector: 'app-footer',
@@ -13,75 +12,48 @@ declare var google: any;
   templateUrl: './footer.html',
   styleUrls: ['./footer.scss']
 })
-export class FooterComponent implements OnInit, AfterViewInit {
-  @ViewChild('mapContainer', { static: false }) mapContainer!: ElementRef;
+export class FooterComponent implements OnInit {
+  mapUrlSafe!: SafeResourceUrl;
 
   lojaInfo = {
-    nome: 'Leda Freitas Cosméticos',
+    nome: 'Leda Cosméticos',
     endereco: 'Estr. da Água Branca, 4497 - Bangu',
     cidade: 'Rio de Janeiro - RJ',
     cep: '21862-371',
     whatsapp: '5521997883761',
     email: 'contato@ledacosmeticos.com.br',
-    instagramUrl: 'https://instagram.com/ledafreitas_cosmeticos',
+    instagramUrl: 'https://instagram.com/ledacosmeticos__',
     facebookUrl: 'https://web.facebook.com/profile.php?id=100029668196851',
     horarios: [
       { dia: 'Segunda a Sexta', hora: '08:00 - 18:00' },
       { dia: 'Sábado', hora: '08:00 - 14:00' },
       { dia: 'Domingo', hora: 'Fechado' }
-    ],
-    coordenadas: { lat: -22.86228, lng: -43.45731 }
+    ]
   };
 
   currentYear = new Date().getFullYear();
-  mapLoaded = false;
 
-  constructor(private toastr: ToastrService, private cdr: ChangeDetectorRef, private googleAnalyticsService: GoogleAnalyticsService) {}
+  constructor(
+    private sanitizer: DomSanitizer,
+    private toastr: ToastrService,
+    private googleAnalyticsService: GoogleAnalyticsService
+  ) {}
 
   ngOnInit(): void {
-    this.loadGoogleMapsScript();
+    const rawMapUrl = 'https://maps.google.com/maps?q=Estr.+da+%C3%81gua+Branca,+4497+-+Bangu,+Rio+de+Janeiro+-+RJ&t=&z=15&ie=UTF8&iwloc=&output=embed';
+    this.mapUrlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(rawMapUrl);
   }
 
-  ngAfterViewInit(): void {
-    if (this.mapLoaded) {
-      this.initializeMap();
+  formatPhone(phone: string): string {
+    if (!phone) return '';
+    const cleaned = phone.replace(/\D/g, '');
+    if (cleaned.length === 13) {
+      return cleaned.replace(/^55(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
     }
-  }
-
-  private loadGoogleMapsScript(): void {
-    if (typeof google !== 'undefined' && google.maps) {
-      this.mapLoaded = true;
-      return;
+    if (cleaned.length === 11) {
+      return cleaned.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
     }
-    const script = document.createElement('script');
-    // IMPORTANTE: Substitua 'SUA_CHAVE_API_AQUI' pela sua chave do Google Maps
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyD0n53VWgmdVE6zigv-NaSDrOjoKp09xvM&libraries=places`;
-    script.async = true;
-    script.defer = true;
-    script.onload = () => {
-      this.mapLoaded = true;
-      this.cdr.detectChanges(); // Força a deteção de mudanças
-      this.initializeMap();
-    };
-    script.onerror = () => console.error('Erro ao carregar Google Maps');
-    document.head.appendChild(script);
-  }
-
-  private initializeMap(): void {
-    if (!this.mapContainer?.nativeElement || !this.mapLoaded) return;
-
-    const mapOptions = {
-      center: this.lojaInfo.coordenadas,
-      zoom: 16,
-      disableDefaultUI: true, // Interface mais limpa
-    };
-    const map = new google.maps.Map(this.mapContainer.nativeElement, mapOptions);
-
-    new google.maps.Marker({
-      position: this.lojaInfo.coordenadas,
-      map: map,
-      title: this.lojaInfo.nome
-    });
+    return phone;
   }
 
   copyToClipboard(text: string, type: string): void {
@@ -90,7 +62,7 @@ export class FooterComponent implements OnInit, AfterViewInit {
     });
   }
 
-    openDirections(): void {
+  openDirections(): void {
     this.googleAnalyticsService.reportarEventoPersonalizado('click_get_directions');
     const address = encodeURIComponent(`${this.lojaInfo.endereco}, ${this.lojaInfo.cidade}`);
     window.open(`https://www.google.com/maps/dir/?api=1&destination=${address}`, '_blank');

@@ -1,11 +1,13 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, NavigationEnd} from '@angular/router';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-
+import { takeUntil, filter } from 'rxjs/operators';
 import { CartService } from '../../services/cart';
 import { CategoryService, Categoria } from '../../services/category';
+import { campanhaAtiva } from '../campaign/campaign';
+
+
 
 @Component({
   selector: 'app-header',
@@ -23,7 +25,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ];
   quantidadeItensCarrinho = 0;
   isMenuOpen = false;
-  
+  isHome = false;
+  scrolled = false;
   categoriasDeProduto: Categoria[] = [];
   categoriasDePresente: Categoria[] = [];
   
@@ -35,12 +38,34 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private router: Router
   ) {}
 
+  @HostListener('window:scroll')
+onScroll(): void {
+  this.scrolled = window.scrollY > 40;
+}
+
+private checkHome(url: string): boolean {
+  return url.split('?')[0].split('#')[0] === '/';
+}
+
   ngOnInit(): void {
     this.cartService.items$
       .pipe(takeUntil(this.destroy$))
       .subscribe(itens => {
         this.quantidadeItensCarrinho = itens.reduce((total, item) => total + item.quantidade, 0);
       });
+
+      this.isHome = this.checkHome(this.router.url);
+this.scrolled = typeof window !== 'undefined' && window.scrollY > 40;
+
+this.router.events
+  .pipe(
+    filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+    takeUntil(this.destroy$)
+  )
+  .subscribe(e => {
+    this.isHome = this.checkHome(e.urlAfterRedirects);
+    this.scrolled = window.scrollY > 40;
+  });
 
     this.categoryService.listarCategorias('PRODUTO')
       .pipe(takeUntil(this.destroy$))
@@ -50,6 +75,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(data => this.categoriasDePresente = data);
   }
+
+  campanhaMenu = (() => {
+  const c = campanhaAtiva();
+  return c.id !== 'padrao' && c.menuLabel ? c : null;
+})();
+
+marcas = [
+  { id: 'natura', nome: 'Natura' },
+  { id: 'boticario', nome: 'O Boticário' },
+  { id: 'avon', nome: 'Avon' },
+];
 
   ngOnDestroy(): void {
     this.destroy$.next();
