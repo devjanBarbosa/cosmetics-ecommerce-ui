@@ -1,0 +1,288 @@
+// Paleta visual elegante para cosméticos e kits de presente
+$brand-wine: #78283a;          // Tom marsala/vinho institucional
+$brand-wine-hover: #5e1c2b;
+$whatsapp-green: #25d366;      // Verde de conversão WhatsApp
+$whatsapp-green-hover: #1ebd5b;
+
+$text-main: #1f2937;
+$text-secondary: #64748b;
+$bg-section: #fdfbfb;
+$card-border: #f1eeee;
+
+.campaign-showcase {
+  padding: 40px 16px 56px;
+  background-color: $bg-section;
+  border-bottom: 1px solid #f0e9e9;
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  // Cabeçalho da Campanha
+  .campaign-header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 32px;
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .campaign-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: $brand-wine;
+      background: rgba($brand-wine, 0.08);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      margin-bottom: 8px;
+    }
+
+    .title {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: $text-main;
+      margin: 0 0 6px;
+      letter-spacing: -0.02em;
+
+      @media (min-width: 768px) {
+        font-size: 1.85rem;
+      }
+    }
+
+    .subtitle {
+      font-size: 0.92rem;
+      color: $text-secondary;
+      margin: 0;
+      max-width: 620px;
+      line-height: 1.45;
+    }
+
+    .see-all-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: $brand-wine;
+      text-decoration: none;
+      transition: gap 0.2s ease, color 0.2s ease;
+      white-space: nowrap;
+
+      &:hover {
+        gap: 10px;
+        color: $brand-wine-hover;
+        text-decoration: underline;
+      }
+
+      svg {
+        stroke: currentColor;
+      }
+    }
+  }
+
+  // Grid de Produtos
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); // 2 colunas perfeitas no celular
+    gap: 12px;
+
+    @media (min-width: 640px) {
+      gap: 16px;
+    }
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+  }
+
+  // Card Comercial
+  .commercial-card {
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid $card-border;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+
+      .card-media img {
+        transform: scale(1.04);
+      }
+    }
+
+    // Área da Foto
+    .card-media {
+      position: relative;
+      width: 100%;
+      padding-top: 105%; // Proporção limpa para estojos e cosméticos
+      background-color: #fafafa;
+      overflow: hidden;
+
+      img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+      }
+
+      .badge {
+        position: absolute;
+        z-index: 2;
+        font-size: 0.65rem;
+        font-weight: 700;
+        padding: 3px 7px;
+        border-radius: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+
+        &.gift-badge {
+          top: 8px;
+          left: 8px;
+          background: rgba(31, 41, 55, 0.88);
+          color: #ffffff;
+          backdrop-filter: blur(4px);
+        }
+
+        &.discount-badge {
+          top: 8px;
+          right: 8px;
+          background: #ef4444;
+          color: #ffffff;
+        }
+      }
+    }
+
+    // Dados e Preço
+    .card-body {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+
+      @media (min-width: 768px) {
+        padding: 16px;
+      }
+
+      .brand-tag {
+        font-size: 0.68rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: #9ca3af;
+        margin-bottom: 2px;
+      }
+
+      .product-title {
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: $text-main;
+        margin: 0 0 10px;
+        line-height: 1.35;
+        min-height: 2.7em; // Força alinhamento idêntico entre os cards
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+
+        @media (min-width: 768px) {
+          font-size: 0.95rem;
+        }
+      }
+
+      .pricing-block {
+        margin-top: auto;
+        margin-bottom: 12px;
+        display: flex;
+        flex-direction: column;
+
+        .original-price {
+          font-size: 0.72rem;
+          color: #9ca3af;
+          text-decoration: line-through;
+          line-height: 1;
+        }
+
+        .main-price {
+          display: flex;
+          align-items: baseline;
+          gap: 2px;
+          color: $brand-wine;
+
+          .currency {
+            font-size: 0.8rem;
+            font-weight: 700;
+          }
+
+          .value {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+
+            @media (min-width: 768px) {
+              font-size: 1.35rem;
+            }
+          }
+        }
+
+        .payment-hint {
+          font-size: 0.7rem;
+          color: $text-secondary;
+          margin-top: 2px;
+        }
+      }
+
+      // Botão de Conversão Direta
+      .card-actions {
+        .btn-whatsapp {
+          width: 100%;
+          border: none;
+          background-color: $whatsapp-green;
+          color: #ffffff;
+          padding: 9px 12px;
+          border-radius: 8px;
+          font-size: 0.82rem;
+          font-weight: 700;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          cursor: pointer;
+          transition: background-color 0.2s ease, transform 0.1s ease;
+
+          &:hover {
+            background-color: $whatsapp-green-hover;
+          }
+
+          &:active {
+            transform: scale(0.97);
+          }
+
+          svg {
+            flex-shrink: 0;
+          }
+        }
+      }
+    }
+  }
+}
